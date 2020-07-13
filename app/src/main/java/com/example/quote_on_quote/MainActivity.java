@@ -2,6 +2,8 @@ package com.example.quote_on_quote;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,12 +17,22 @@ public class MainActivity extends AppCompatActivity {
     //TODO: make calls to my database to generate the set of questions the player will answer.
 
 
-    public int countCorrect(){
-        //this will count how many questions the player got correct and return the count
+//    public int countCorrect(){
+//        //this will count how many questions the player got correct and return the count
+//    }
+
+    public void startNewGame(){
+        /*
+        this method will contain all the logic that is needed when a new game starts
+        TODO: make a collection of questions that live in an ArrayList (5 questions per game)
+        TODO: keep track of what questions is currently being displayed
+        */
+
     }
 
-    public String gameOver(int numberCOrrect, int numberOfQuestions){
-        // this will output some type of message  to the player that tells them if they won or lost
-    }
+
+//    public String gameOver(int numberCorrect, int numberOfQuestions){
+//        // this will output some type of message  to the player that tells them if they won or lost
+//    }
 
 }
