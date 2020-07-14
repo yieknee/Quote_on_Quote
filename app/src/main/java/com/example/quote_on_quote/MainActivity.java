@@ -2,8 +2,8 @@ package com.example.quote_on_quote;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import java.util.Arrays;
-import java.util.ArrayList;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +11,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final Button playButton = findViewById(R.id.playbutton);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setContentView(R.layout.game_play_main);
+            }
+        });
     }
 
     //TODO: seed my database with 20 question objects.
