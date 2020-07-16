@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F3E4"
+    android:background="@color/colorPrimary"
     android:visibility="visible">
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/quoteimg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/quote image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,17 +19,19 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/question"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-thin"
-        android:text="@string/textview"
+        android:text="Question"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/quoteimg" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -44,20 +45,20 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
-            android:id="@+id/button17"
+            android:id="@+id/answer2"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button" />
+            android:text="@string/answer2" />
 
         <Button
-            android:id="@+id/button18"
+            android:id="@+id/answer3"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button" />
+            android:text="@string/answer3" />
     </LinearLayout>
 
     <LinearLayout
@@ -67,23 +68,23 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/question">
 
         <Button
-            android:id="@+id/button19"
+            android:id="@+id/answer0"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button" />
+            android:text="@string/answer0" />
 
         <Button
-            android:id="@+id/button20"
+            android:id="@+id/answer1"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/button" />
+            android:text="@string/answer1" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

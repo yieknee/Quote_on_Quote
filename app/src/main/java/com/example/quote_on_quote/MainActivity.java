@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.landing_page_main);
 
         final Button playButton = findViewById(R.id.playbutton);
         playButton.setOnClickListener(new View.OnClickListener() {

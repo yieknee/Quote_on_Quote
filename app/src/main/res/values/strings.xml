@@ -2,11 +2,9 @@
     <string name="app_name">Quote-on-Quote</string>
     <string name="play">PLAY</string>
     <string name="textview">TextView</string>
-    <string name="button">Button</string>
-    <string name="button">Button</string>
-    <string name="button">Button</string>
-    <string name="button">Button</string>
-    <string name="todo">TODO</string>
+    <string name="answer0">Button</string>
+    <string name="answer1">Button</string>
+    <string name="answer2">Button</string>
+    <string name="answer3">Button</string>
     <string name="quote_on_quote">Quote-on-Quote</string>
-    <string name="todo">TODO</string>
 </resources>
