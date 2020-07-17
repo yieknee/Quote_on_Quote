@@ -7,4 +7,5 @@
     <string name="answer2">Button</string>
     <string name="answer3">Button</string>
     <string name="quote_on_quote">Quote-on-Quote</string>
+    <string name="questionimage">questionimage</string>
 </resources>
