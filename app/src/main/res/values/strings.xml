@@ -10,4 +10,7 @@
     <string name="questionimage">questionimage</string>
     <string name="trivia_about_your_favorite_false_quotes_misquotes_and_mis_attributed_quotes">Trivia about your favorite false quotes, misquotes, and mis-attributed quotes!</string>
     <string name="openingpageimage">openingpageimage</string>
+    <string name="more_info">More info</string>
+    <string name="next_question">Next Question</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,15 +21,21 @@ public class MainActivity extends AppCompatActivity {
     int totalCorrectAnswers;
     int totalQuestions;
     int playerAnswer;
-    int currentQuestionIndex;
+    int currentQuestionIndex = -1;
 
     ImageView quoteImageView;
     TextView questionTextView;
+    TextView answerResultText;
     Button playButton;
     Button answer0Button;
     Button answer1Button;
     Button answer2Button;
     Button answer3Button;
+    Button submitButton;
+    Button moreInfoButton;
+    Button nextQuestionButton;
+    LinearLayout buttonHolder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +54,16 @@ public class MainActivity extends AppCompatActivity {
                 setContentView(R.layout.game_play_main);
                 quoteImageView = findViewById(R.id.quoteimg);
                 questionTextView = findViewById(R.id.question);
+                answerResultText = findViewById(R.id.answerresult);
                 answer0Button = findViewById(R.id.answer0);
                 answer1Button = findViewById(R.id.answer1);
                 answer2Button = findViewById(R.id.answer2);
                 answer3Button = findViewById(R.id.answer3);
+                submitButton = findViewById(R.id.submit);
+                moreInfoButton = findViewById(R.id.moreinfo);
+                nextQuestionButton = findViewById(R.id.nextquestion);
+                buttonHolder = findViewById(R.id.buttonholder);
+
 
                 startNewGame();
 
@@ -107,6 +120,31 @@ public class MainActivity extends AppCompatActivity {
                   }
                 });
 
+                submitButton.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+                    Question currentQuestion = getCurrentQuestion();
+                    submitButton.setVisibility(View.GONE);
+                    if(currentQuestion.isCorrect()){
+                      answerResultText.setText("Correct!");
+                    } else {
+                      answerResultText.setText("Incorrect!");
+                    }
+                    answerResultText.setVisibility(View.VISIBLE);
+                    buttonHolder.setVisibility(View.VISIBLE);
+                  }
+                });
+
+//                nextQuestionButton.setOnClickListener(new View.OnClickListener() {
+//                  @Override
+//                  public void onClick(View view) {
+//                    if(currentQuestionIndex < 5){
+//                      pickQuestion();
+//                      renderQuestion();
+//                    }
+//                  }
+//                });
+
             }
         });
 
@@ -132,8 +170,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   public void renderQuestion(Question question){
-
+   public void renderQuestion(){
+        Question question = getCurrentQuestion();
         String imageText = question.imageName;
         int imageId = this.getResources().getIdentifier(imageText, "drawable", this.getPackageName()); //found here: https://stackoverflow.com/questions/3476430/how-to-get-a-resource-id-with-a-known-resource-name
         quoteImageView.setImageResource(imageId);
@@ -147,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
    public Question pickQuestion(){
       Random random = new Random();
-      int currentQuestionIndex = random.nextInt(gameQuestions.size());
+      currentQuestionIndex += 1;
       Question chosenQuestion = gameQuestions.get(currentQuestionIndex);
       return chosenQuestion;
    }
@@ -179,11 +217,11 @@ public class MainActivity extends AppCompatActivity {
         TODO: keep track of what questions is currently being displayed
         */
 
-        Question firstQuestion = getCurrentQuestion();
+        pickQuestion();
         totalCorrectAnswers = 0;
         totalQuestions = gameQuestions.size();
 
-        renderQuestion(firstQuestion);
+        renderQuestion();
 
     }
 
