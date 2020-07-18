@@ -38,6 +38,7 @@
         android:background="#909E9E"
         android:enabled="false"
         android:fontFamily="@font/amatica_sc"
+        android:soundEffectsEnabled="true"
         android:text="@string/play"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#FFFEFE"

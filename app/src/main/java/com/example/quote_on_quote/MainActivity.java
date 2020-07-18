@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Question> gameQuestions;
     int totalCorrectAnswers;
     int totalQuestions;
+    int playerAnswer;
+    int currentQuestionIndex;
 
     ImageView quoteImageView;
     TextView questionTextView;
@@ -49,9 +51,66 @@ public class MainActivity extends AppCompatActivity {
                 answer1Button = findViewById(R.id.answer1);
                 answer2Button = findViewById(R.id.answer2);
                 answer3Button = findViewById(R.id.answer3);
+
                 startNewGame();
+
+                answer0Button.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    Question currentQuestion = getCurrentQuestion();
+                    playerAnswer = 0;
+                    setPlayerAnswer( currentQuestion, answer0Button,  0);
+
+                    answer1Button.setText(currentQuestion.answerArray[1]);
+                    answer2Button.setText(currentQuestion.answerArray[2]);
+                    answer3Button.setText(currentQuestion.answerArray[3]);
+                  }
+                });
+
+                answer1Button.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    Question currentQuestion = getCurrentQuestion();
+
+                    playerAnswer = 1;
+                    setPlayerAnswer( currentQuestion, answer1Button,  1);
+
+                    answer0Button.setText(currentQuestion.answerArray[0]);
+                    answer2Button.setText(currentQuestion.answerArray[2]);
+                    answer3Button.setText(currentQuestion.answerArray[3]);
+                  }
+                });
+
+                answer2Button.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    Question currentQuestion = getCurrentQuestion();
+                    playerAnswer = 2;
+                    setPlayerAnswer( currentQuestion, answer2Button,  2);
+
+                    answer0Button.setText(currentQuestion.answerArray[0]);
+                    answer1Button.setText(currentQuestion.answerArray[1]);
+                    answer3Button.setText(currentQuestion.answerArray[3]);
+                  }
+                });
+
+                answer3Button.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                    Question currentQuestion = getCurrentQuestion();
+                    playerAnswer = 3;
+                    setPlayerAnswer( currentQuestion, answer3Button,  3);
+
+                    answer0Button.setText(currentQuestion.answerArray[0]);
+                    answer1Button.setText(currentQuestion.answerArray[1]);
+                    answer2Button.setText(currentQuestion.answerArray[2]);
+                  }
+                });
+
             }
         });
+
+
 
         /* (7) The below creates a new QuestionLookup instance and calls the createAllQuestions which triggers
            everything we did in that class.
@@ -68,16 +127,15 @@ public class MainActivity extends AppCompatActivity {
                playButton.setEnabled(true); //(9)
                playButton.setBackgroundColor(0xff339999);
            });
-
         });
 
 
     }
 
    public void renderQuestion(Question question){
-        String imageText = question.imageName;
-        int imageId = this.getResources().getIdentifier(imageText, "drawable", this.getPackageName());
 
+        String imageText = question.imageName;
+        int imageId = this.getResources().getIdentifier(imageText, "drawable", this.getPackageName()); //found here: https://stackoverflow.com/questions/3476430/how-to-get-a-resource-id-with-a-known-resource-name
         quoteImageView.setImageResource(imageId);
         questionTextView.setText(question.questionText);
         answer0Button.setText(question.answerArray[0]);
@@ -86,30 +144,40 @@ public class MainActivity extends AppCompatActivity {
         answer3Button.setText(question.answerArray[3]);
 
    }
+
+   public Question pickQuestion(){
+      Random random = new Random();
+      int currentQuestionIndex = random.nextInt(gameQuestions.size());
+      Question chosenQuestion = gameQuestions.get(currentQuestionIndex);
+      return chosenQuestion;
+   }
 //
    public Question getCurrentQuestion(){
        Question question = null;
        if(gameQuestions.size() > 0){
-            question = gameQuestions.get(0);
-            gameQuestions.remove(0);
+            question = gameQuestions.get(currentQuestionIndex);
+//            gameQuestions.remove(0);
         };
        return question;
    }
 
+   public void setPlayerAnswer(Question currentQuestion, Button clickedButton, int answerInt){
+      currentQuestion.playerAnswer = playerAnswer;
+      clickedButton.setText("\uD83D\uDCAC" + currentQuestion.answerArray[answerInt]);
+      // "\uD83D\uDCAC" **speech bubble java unicode
+   }
 
-
-//    public int countCorrect(){
-//        //this will count how many questions the player got correct and return the count
-//    }
+    public int countCorrect(){
+        //this will count how many questions the player got correct and return the count
+        int numCorrect = 0;
+        return numCorrect;
+    }
 
     public void startNewGame(){
         /*
         this method will contain all the logic that is needed when a new game starts
-        TODO: make a collection of questions that live in an ArrayList (5 questions per game)
         TODO: keep track of what questions is currently being displayed
         */
-
-
 
         Question firstQuestion = getCurrentQuestion();
         totalCorrectAnswers = 0;
