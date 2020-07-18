@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     int totalQuestions;
     int playerAnswer;
     int currentQuestionIndex = -1;
+    int correctAnswerButtonId;
 
     ImageView quoteImageView;
     TextView questionTextView;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Button submitButton;
     Button moreInfoButton;
     Button nextQuestionButton;
+    Button correctAnswerButton;
     LinearLayout buttonHolder;
 
 
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 submitButton.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View view) {
+                    correctAnswerButton = findViewById(correctAnswerButtonId);
                     Question currentQuestion = getCurrentQuestion();
                     submitButton.setVisibility(View.GONE);
                     if(currentQuestion.isCorrect()){
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                       answerResultText.setText("Incorrect!");
                     }
+                    correctAnswerButton.setText("\u2714" + currentQuestion.answerArray[currentQuestion.correctAnswer]);
                     answerResultText.setVisibility(View.VISIBLE);
                     buttonHolder.setVisibility(View.VISIBLE);
                   }
@@ -187,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
       Random random = new Random();
       currentQuestionIndex += 1;
       Question chosenQuestion = gameQuestions.get(currentQuestionIndex);
+      String correctAnswerButton = "answer" + chosenQuestion.correctAnswer;
+      correctAnswerButtonId = getResources().getIdentifier(correctAnswerButton, "id", getPackageName());
       return chosenQuestion;
    }
 //
