@@ -52,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
-            android:text="@string/answer0" />
+            android:text="@string/answer0"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/answer1"
@@ -62,7 +63,8 @@
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
             android:backgroundTintMode="src_in"
-            android:text="@string/answer1" />
+            android:text="@string/answer1"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/answer2"
@@ -71,7 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
-            android:text="@string/answer2" />
+            android:text="@string/answer2"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/answer3"
@@ -80,7 +83,68 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/colorPrimary"
-            android:text="@string/answer3" />
+            android:text="@string/answer3"
+            android:textSize="18sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/answerresult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/advent_pro_bold"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/answerresult">
+
+        <Button
+            android:id="@+id/moreinfo"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:text="More info"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/nextquestion"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/advent_pro_bold"
+            android:text="Next Question"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button4"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorPrimaryDark"
+        android:fontFamily="@font/advent_pro_bold"
+        android:text="Submit"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
