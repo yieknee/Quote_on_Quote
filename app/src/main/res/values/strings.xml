@@ -8,4 +8,6 @@
     <string name="answer3">Button</string>
     <string name="quote_on_quote">Quote-on-Quote</string>
     <string name="questionimage">questionimage</string>
+    <string name="trivia_about_your_favorite_false_quotes_misquotes_and_mis_attributed_quotes">Trivia about your favorite false quotes, misquotes, and mis-attributed quotes!</string>
+    <string name="openingpageimage">openingpageimage</string>
 </resources>

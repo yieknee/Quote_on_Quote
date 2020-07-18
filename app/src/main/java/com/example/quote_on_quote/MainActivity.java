@@ -7,34 +7,26 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
-
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-
-
-import org.json.JSONException;
-
-
-
-import java.io.IOException;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
 
 
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList<Question> gameQuestions;
+    int totalCorrectAnswers;
+    int totalQuestions;
+
+    ImageView quoteImageView;
+    TextView questionTextView;
+    Button playButton;
+    Button answer0Button;
+    Button answer1Button;
+    Button answer2Button;
+    Button answer3Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +35,58 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.landing_page_main);
 
 
-        final Button playButton = findViewById(R.id.playbutton);
+        playButton = findViewById(R.id.playbutton);
+
+
+
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setContentView(R.layout.game_play_main);
+                quoteImageView = findViewById(R.id.quoteimg);
+                questionTextView = findViewById(R.id.question);
+                answer0Button = findViewById(R.id.answer0);
+                answer1Button = findViewById(R.id.answer1);
+                answer2Button = findViewById(R.id.answer2);
+                answer3Button = findViewById(R.id.answer3);
                 startNewGame();
             }
         });
+
+        QuestionLookup questionLookup = new QuestionLookup();
+        questionLookup.createAllQuestions(()->{
+           gameQuestions =  questionLookup.getGameQuestions();
+           MainActivity.this.runOnUiThread(() ->{
+               playButton.setEnabled(true);
+               playButton.setBackgroundColor(0xff339999);
+           });
+
+        });
+
+
     }
 
-    //TODO: seed my database with 20 question objects.
-    //TODO: make calls to my database to generate the set of questions the player will answer.
+//   public void renderQuestion(Question question){
+//        String imageText = question.imageName;
+//        int imageId = getResources().getIdentifier(imageText , "drawable", "package.name");
+//
+//        quoteImageView.setImageResource(imageId);
+//        questionTextView.setText(question.questionText);
+//        answer0Button.setText(question.answerArray[0]);
+//        answer1Button.setText(question.answerArray[1]);
+//        answer2Button.setText(question.answerArray[2]);
+//        answer3Button.setText(question.answerArray[3]);
+//
+//   }
+//
+//   public Question getCurrentQuestion(){
+//       Question question = null;
+//       if(gameQuestions.size() > 0){
+//            question = gameQuestions.get(0);
+//            gameQuestions.remove(0);
+//        };
+//       return question;
+//   }
+
 
 
 //    public int countCorrect(){
@@ -67,7 +100,13 @@ public class MainActivity extends AppCompatActivity {
         TODO: keep track of what questions is currently being displayed
         */
 
-        Question[] gameQuestions = Question.getGameQuestions();
+//
+//
+//        Question firstQuestion = getCurrentQuestion();
+//        totalCorrectAnswers = 0;
+//        totalQuestions = gameQuestions.size();
+//
+//        renderQuestion(firstQuestion);
 
     }
 
