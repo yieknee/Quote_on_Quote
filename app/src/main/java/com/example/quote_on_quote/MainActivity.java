@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
   int totalCorrectAnswers = 0;
   int totalQuestions;
   int playerAnswer;
-  int currentQuestionIndex = -1;
+  int currentQuestionIndex = 1;
   int correctAnswerButtonId;
+  String gameOverMessage;
 
   ImageView quoteImageView;
   TextView questionTextView;
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         moreInfoButton = findViewById(R.id.moreinfo);
         nextQuestionButton = findViewById(R.id.nextquestion);
         buttonHolder = findViewById(R.id.buttonholder);
-
 
         startNewGame();
 
@@ -132,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            correctAnswerButton = findViewById(correctAnswerButtonId);
+            setCorrectAnswerButtonId();
+
             Question currentQuestion = getCurrentQuestion();
             submitButton.setVisibility(View.GONE); //hide the submit button
 
@@ -154,14 +153,36 @@ public class MainActivity extends AppCompatActivity {
         nextQuestionButton.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            if (currentQuestionIndex < 5) {
+            if (currentQuestionIndex < 4) {
               submitButton.setVisibility(View.VISIBLE);
               answerResultText.setVisibility(View.GONE);
               buttonHolder.setVisibility(View.GONE);
               pickQuestion();
               renderQuestion();
-            } else if(currentQuestionIndex == 5) {
-//              gameOver(totalCorrectAnswers, totalQuestions);
+            } else {
+
+              gameOver(totalCorrectAnswers, totalQuestions);
+
+              AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+              gameOverDialogBuilder.setCancelable(false);
+              gameOverDialogBuilder.setTitle("Game Over!");
+              gameOverDialogBuilder.setMessage(gameOverMessage);
+
+              gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                  setContentView(R.layout.landing_page_main);
+                }
+              });
+
+              gameOverDialogBuilder.setNegativeButton("Leave Game!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                  System.exit(0);
+                }
+              });
+
+              gameOverDialogBuilder.create().show();
             }
           }
         });
@@ -206,20 +227,21 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void pickQuestion() {
-    Random random = new Random();
     currentQuestionIndex += 1;
-    Question chosenQuestion = gameQuestions.get(currentQuestionIndex);
-    String correctAnswerButton = "answer" + chosenQuestion.correctAnswer;
-    correctAnswerButtonId = getResources().getIdentifier(correctAnswerButton, "id", getPackageName());
   }
 
-  //
+  public void setCorrectAnswerButtonId() {
+    Question chosenQuestion = gameQuestions.get(currentQuestionIndex); // picks current question
+    String correctAnswerButtonName = "answer" + chosenQuestion.correctAnswer; //uses current question to find the name of the correct answer button
+    correctAnswerButtonId = getResources().getIdentifier(correctAnswerButtonName, "id", getPackageName()); // gets id of correctAnswerButton
+    correctAnswerButton = findViewById(correctAnswerButtonId);
+  }
+
   public Question getCurrentQuestion() {
     Question question = null;
     if (gameQuestions.size() > 0) {
       question = gameQuestions.get(currentQuestionIndex);
     }
-    ;
     return question;
   }
 
@@ -241,40 +263,19 @@ public class MainActivity extends AppCompatActivity {
     totalCorrectAnswers = 0;
     totalQuestions = gameQuestions.size();
 
-    pickQuestion();
     renderQuestion();
 
   }
 
 
-//  public void gameOver(int numberCorrect, int numberOfQuestions) {
-//    // this will output some type of message  to the player that tells them if they won or lost
-//    String gameOverMessage;
-//    if (totalCorrectAnswers == totalQuestions) {
-//      gameOverMessage = "You got all " + totalQuestions + " right! YOU WIN!";
-//    } else {
-//      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ".  YOU LOSE! Better luck next time!";
-//    }
-//    AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-//    gameOverDialogBuilder.setCancelable(false);
-//    gameOverDialogBuilder.setTitle("Game Over!");
-//    gameOverDialogBuilder.setMessage(gameOverMessage);
-//
-//    gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
-//      @Override
-//      public void onClick(DialogInterface dialog, int which) {
-//        setContentView(R.layout.landing_page_main);
-//      }
-//    });
-//
-//    gameOverDialogBuilder.setNegativeButton("Leave Game!", new DialogInterface.OnClickListener() {
-//      @Override
-//      public void onClick(DialogInterface dialog, int which) {
-//        System.exit(0);
-//      }
-//    });
-//
-//    gameOverDialogBuilder.create().show();
-//  }
+  public String gameOver(int numberCorrect, int numberOfQuestions) {
+    // this will output some type of message  to the player that tells them if they won or lost
+    if (totalCorrectAnswers == totalQuestions) {
+      gameOverMessage = "You got all " + totalQuestions + " right! YOU WIN!";
+    } else {
+      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ".  YOU LOSE! Better luck next time!";
+    }
+    return gameOverMessage;
+  }
 
 }
