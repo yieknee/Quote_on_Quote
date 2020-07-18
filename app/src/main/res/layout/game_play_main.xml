@@ -103,7 +103,8 @@
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/buttonholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,11 +114,11 @@
         android:id="@+id/buttonholder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answerresult">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/moreinfo"
@@ -148,6 +149,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:background="@color/colorPrimaryDark"
+        android:enabled="false"
         android:fontFamily="@font/amatica_sc"
         android:text="@string/submit"
         android:textColor="#FFFFFF"
