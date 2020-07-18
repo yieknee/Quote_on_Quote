@@ -18,10 +18,6 @@ public class Question {
     }
     // checks if the answer the player chose is the right answer.
     public boolean isCorrect(){
-      if(playerAnswer == correctAnswer){
-        return true;
-      } else {
-        return false;
-      }
+      return playerAnswer == correctAnswer;
     }
 }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -171,14 +172,19 @@ public class MainActivity extends AppCompatActivity {
               gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                  setContentView(R.layout.landing_page_main);
+                  //got the code below from: https://stackoverflow.com/questions/13956026/re-launch-android-application-programmatically
+                  Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(
+                      getBaseContext().getPackageName());
+                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                  startActivity(intent);
                 }
               });
 
               gameOverDialogBuilder.setNegativeButton("Leave Game!", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                  System.exit(0);
+                  finish();
                 }
               });
 
@@ -190,17 +196,13 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-
-
         /* (7) The below creates a new QuestionLookup instance and calls the createAllQuestions which triggers
            everything we did in that class.
            (8) the runnable that is  passed inside createAllQuestions gets the 5 questions needed for 1 round of the game.
            (9) If the questions have all been loaded the playButton gets enabled for the user to play the game and the color gets set to the theme
            (10) The app kept crashing becuase a UI element has to be changed and run on the UI thread, so we had to wrap the changes to the button in
            a  MainActivity.this.runOnUiThread to make the changes run on that thread.
-
          */
-
     QuestionLookup questionLookup = new QuestionLookup();
     questionLookup.createAllQuestions(() -> {
       gameQuestions = questionLookup.getGameQuestions(); //(8)
@@ -264,18 +266,16 @@ public class MainActivity extends AppCompatActivity {
     totalQuestions = gameQuestions.size();
 
     renderQuestion();
-
   }
 
 
-  public String gameOver(int numberCorrect, int numberOfQuestions) {
+  public void gameOver(int numberCorrect, int numberOfQuestions) {
     // this will output some type of message  to the player that tells them if they won or lost
     if (totalCorrectAnswers == totalQuestions) {
       gameOverMessage = "You got all " + totalQuestions + " right! YOU WIN!";
     } else {
       gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ".  YOU LOSE! Better luck next time!";
     }
-    return gameOverMessage;
   }
 
 }

@@ -57,7 +57,7 @@ public class QuestionLookup implements Callback{
   }
 
   //(4)
-  public ArrayList<Question> createAllQuestions(Runnable afterLoaded){
+  public void createAllQuestions(Runnable afterLoaded){
     //(4)
     this.afterLoaded = afterLoaded;
 
@@ -78,8 +78,6 @@ public class QuestionLookup implements Callback{
      (5) the this in the enque triggers the runnable and runs the callback methods which populate the allQuestions array.
      **see MainActivity.java file for the rest of the solution to this bug.
       */
-
-    return allQuestions;
   }
 
   public ArrayList<Question> getGameQuestions(){
