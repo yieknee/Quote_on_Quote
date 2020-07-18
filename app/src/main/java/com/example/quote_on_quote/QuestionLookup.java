@@ -13,17 +13,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+// (1)(2) **see lines 70-80
 public class QuestionLookup implements Callback{
-
+  //(4)
   Runnable afterLoaded;
 
-  public ArrayList<Question> allQuestions = new ArrayList<>();
 
+  public ArrayList<Question> allQuestions = new ArrayList<>();
+  //(3)
   @Override
   public void onFailure(Request request, IOException e) {
     e.printStackTrace();
   }
-
+  //(3)
   @Override
   public void onResponse(Response response) throws IOException {
     if(response.isSuccessful()){
@@ -45,7 +47,6 @@ public class QuestionLookup implements Callback{
           String quoteText = questionObject.getString("quoteText");
           Question question = new Question(quoteText, questionText, answerArray, correctAnswer,imageName);
           allQuestions.add(question);
-          System.out.println(allQuestions);
         }
       } catch (JSONException e) {
         e.printStackTrace();
@@ -55,8 +56,9 @@ public class QuestionLookup implements Callback{
     afterLoaded.run();
   }
 
+  //(4)
   public ArrayList<Question> createAllQuestions(Runnable afterLoaded){
-
+    //(4)
     this.afterLoaded = afterLoaded;
 
     OkHttpClient client = new OkHttpClient();
@@ -65,8 +67,18 @@ public class QuestionLookup implements Callback{
     Request request = new Request.Builder()
         .url(fireBaseUrl)
         .build();
+    //(5)
     client.newCall(request).enqueue(this);
-//      System.out.println(allQuestions);
+     /*allQuestions would not populate (returned []) because OkHttp was making asynchronous calls and the return of all questions was happening before the array could be populated.
+     To solve it we (Ansel the TA helped me) had to
+     (1) separate these methods from the Question class and create this QuestionLookup class and
+     (2) implement a callback within this class.
+     (3) put the Callback request and response from okhttps call to firebase outside of createAllQuestions method
+     (4) create a runnable called after loaded and pass the runnable into this method and set the runnable variable.
+     (5) the this in the enque triggers the runnable and runs the callback methods which populate the allQuestions array.
+     **see MainActivity.java file for the rest of the solution to this bug.
+      */
+
     return allQuestions;
   }
 

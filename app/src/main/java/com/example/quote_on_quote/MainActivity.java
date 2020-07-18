@@ -34,10 +34,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_page_main);
 
-
+        /*(6) Had to set the play button by default to be unclickable until all the questions for the game get loaded.
+        Visually signalled the play button being inactive by making the color gray.
+        ** see landing_page_main xml file
+         */
         playButton = findViewById(R.id.playbutton);
-
-
 
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -52,11 +53,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* (7) The below creates a new QuestionLookup instance and calls the createAllQuestions which triggers
+           everything we did in that class.
+           (8) the runnable that is  passed inside createAllQuestions gets the 5 questions needed for 1 round of the game.
+           (9) If the questions have all been loaded the playButton gets enabled for the user to play the game and the color gets set to the theme
+           (10) The app kept crashing becuase a UI element has to be changed and run on the UI thread, so we had to wrap the changes to the button in
+           a  MainActivity.this.runOnUiThread to make the changes run on that thread.
+
+         */
         QuestionLookup questionLookup = new QuestionLookup();
         questionLookup.createAllQuestions(()->{
-           gameQuestions =  questionLookup.getGameQuestions();
+           gameQuestions =  questionLookup.getGameQuestions(); //(8)
            MainActivity.this.runOnUiThread(() ->{
-               playButton.setEnabled(true);
+               playButton.setEnabled(true); //(9)
                playButton.setBackgroundColor(0xff339999);
            });
 
@@ -65,27 +74,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//   public void renderQuestion(Question question){
-//        String imageText = question.imageName;
-//        int imageId = getResources().getIdentifier(imageText , "drawable", "package.name");
+   public void renderQuestion(Question question){
+        String imageText = question.imageName;
+        int imageId = this.getResources().getIdentifier(imageText, "drawable", this.getPackageName());
+
+        quoteImageView.setImageResource(imageId);
+        questionTextView.setText(question.questionText);
+        answer0Button.setText(question.answerArray[0]);
+        answer1Button.setText(question.answerArray[1]);
+        answer2Button.setText(question.answerArray[2]);
+        answer3Button.setText(question.answerArray[3]);
+
+   }
 //
-//        quoteImageView.setImageResource(imageId);
-//        questionTextView.setText(question.questionText);
-//        answer0Button.setText(question.answerArray[0]);
-//        answer1Button.setText(question.answerArray[1]);
-//        answer2Button.setText(question.answerArray[2]);
-//        answer3Button.setText(question.answerArray[3]);
-//
-//   }
-//
-//   public Question getCurrentQuestion(){
-//       Question question = null;
-//       if(gameQuestions.size() > 0){
-//            question = gameQuestions.get(0);
-//            gameQuestions.remove(0);
-//        };
-//       return question;
-//   }
+   public Question getCurrentQuestion(){
+       Question question = null;
+       if(gameQuestions.size() > 0){
+            question = gameQuestions.get(0);
+            gameQuestions.remove(0);
+        };
+       return question;
+   }
 
 
 
@@ -100,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
         TODO: keep track of what questions is currently being displayed
         */
 
-//
-//
-//        Question firstQuestion = getCurrentQuestion();
-//        totalCorrectAnswers = 0;
-//        totalQuestions = gameQuestions.size();
-//
-//        renderQuestion(firstQuestion);
+
+
+        Question firstQuestion = getCurrentQuestion();
+        totalCorrectAnswers = 0;
+        totalQuestions = gameQuestions.size();
+
+        renderQuestion(firstQuestion);
 
     }
 
