@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -138,16 +140,33 @@ public class MainActivity extends AppCompatActivity {
 
             if (currentQuestion.isCorrect()) {
               countCorrect(true); //increment totalCorrectAnswers
-              String correct = "CORRECT!";
-              answerResultText.setText(correct);
+              quoteImageView.setImageResource(R.drawable.solidcolor);
+              quoteImageView.setForeground(getDrawable(R.drawable.correct));
             } else {
-              String incorrect = "INCORRECT!";
-              answerResultText.setText(incorrect);
+              quoteImageView.setImageResource(R.drawable.solidcolor);
+              quoteImageView.setForeground(getDrawable(R.drawable.wrong));
             }
             String text = "\u2714" + currentQuestion.answerArray[currentQuestion.correctAnswer];
             correctAnswerButton.setText(text);
-            answerResultText.setVisibility(View.VISIBLE);
             buttonHolder.setVisibility(View.VISIBLE);
+
+          }
+        });
+
+        moreInfoButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            Question currentQuestion = getCurrentQuestion();
+            answerResultText.setText(currentQuestion.infoText);
+            answerResultText.setMovementMethod(new ScrollingMovementMethod());
+
+            questionTextView.setVisibility(View.GONE);
+            quoteImageView.setVisibility(View.GONE);
+            answer0Button.setVisibility(View.GONE);
+            answer1Button.setVisibility(View.GONE);
+            answer2Button.setVisibility(View.GONE);
+            answer3Button.setVisibility(View.GONE);
+            answerResultText.setVisibility(View.VISIBLE);
           }
         });
 
@@ -155,13 +174,15 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public void onClick(View view) {
             if (currentQuestionIndex < 4) {
-              submitButton.setVisibility(View.VISIBLE);
+              quoteImageView.setForeground(null);
+
               answerResultText.setVisibility(View.GONE);
               buttonHolder.setVisibility(View.GONE);
+
               pickQuestion();
               renderQuestion();
             } else {
-
+              quoteImageView.setForeground(null);
               gameOver(totalCorrectAnswers, totalQuestions);
 
               AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -175,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                   //got the code below from: https://stackoverflow.com/questions/13956026/re-launch-android-application-programmatically
                   Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(
                       getBaseContext().getPackageName());
+                  assert intent != null;
                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                   startActivity(intent);
@@ -221,11 +243,20 @@ public class MainActivity extends AppCompatActivity {
     int imageId = this.getResources().getIdentifier(imageText, "drawable", this.getPackageName()); //found here: https://stackoverflow.com/questions/3476430/how-to-get-a-resource-id-with-a-known-resource-name
     quoteImageView.setImageResource(imageId);
     questionTextView.setText(question.questionText);
+
     answer0Button.setText(question.answerArray[0]);
     answer1Button.setText(question.answerArray[1]);
     answer2Button.setText(question.answerArray[2]);
     answer3Button.setText(question.answerArray[3]);
 
+    questionTextView.setVisibility(View.VISIBLE);
+    quoteImageView.setVisibility(View.VISIBLE);
+    answer0Button.setVisibility(View.VISIBLE);
+    answer1Button.setVisibility(View.VISIBLE);
+    answer2Button.setVisibility(View.VISIBLE);
+    answer3Button.setVisibility(View.VISIBLE);
+    submitButton.setVisibility(View.VISIBLE);
+    submitButton.setEnabled(false);
   }
 
   public void pickQuestion() {
@@ -274,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
     if (totalCorrectAnswers == totalQuestions) {
       gameOverMessage = "You got all " + totalQuestions + " right! \n YOU WIN!";
     } else {
-      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ". \n"+ "YOU LOSE! \n Better luck next time!";
+      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ". \n" + "YOU LOSE! \n Better luck next time!";
     }
   }
 
