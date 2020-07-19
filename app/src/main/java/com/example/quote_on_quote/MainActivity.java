@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
   int totalCorrectAnswers = 0;
   int totalQuestions;
   int playerAnswer;
-  int currentQuestionIndex = 1;
+  int currentQuestionIndex = 0;
   int correctAnswerButtonId;
   String gameOverMessage;
 
@@ -272,9 +272,9 @@ public class MainActivity extends AppCompatActivity {
   public void gameOver(int numberCorrect, int numberOfQuestions) {
     // this will output some type of message  to the player that tells them if they won or lost
     if (totalCorrectAnswers == totalQuestions) {
-      gameOverMessage = "You got all " + totalQuestions + " right! YOU WIN!";
+      gameOverMessage = "You got all " + totalQuestions + " right! \n YOU WIN!";
     } else {
-      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ".  YOU LOSE! Better luck next time!";
+      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ". \n"+ "YOU LOSE! \n Better luck next time!";
     }
   }
 
