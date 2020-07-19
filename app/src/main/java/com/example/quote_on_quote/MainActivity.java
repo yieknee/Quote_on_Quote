@@ -140,11 +140,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (currentQuestion.isCorrect()) {
               countCorrect(true); //increment totalCorrectAnswers
-              quoteImageView.setImageResource(R.drawable.solidcolor);
-              quoteImageView.setForeground(getDrawable(R.drawable.correct));
+              quoteImageView.setImageResource(R.drawable.correct);
             } else {
-              quoteImageView.setImageResource(R.drawable.solidcolor);
-              quoteImageView.setForeground(getDrawable(R.drawable.wrong));
+              quoteImageView.setImageResource(R.drawable.wrong);
             }
             String text = "\u2714" + currentQuestion.answerArray[currentQuestion.correctAnswer];
             correctAnswerButton.setText(text);
@@ -209,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                   finish();
                 }
               });
-
               gameOverDialogBuilder.create().show();
             }
           }
@@ -249,13 +246,15 @@ public class MainActivity extends AppCompatActivity {
     answer2Button.setText(question.answerArray[2]);
     answer3Button.setText(question.answerArray[3]);
 
-    questionTextView.setVisibility(View.VISIBLE);
-    quoteImageView.setVisibility(View.VISIBLE);
-    answer0Button.setVisibility(View.VISIBLE);
-    answer1Button.setVisibility(View.VISIBLE);
-    answer2Button.setVisibility(View.VISIBLE);
-    answer3Button.setVisibility(View.VISIBLE);
-    submitButton.setVisibility(View.VISIBLE);
+    if(currentQuestionIndex > 0){
+      questionTextView.setVisibility(View.VISIBLE);
+      quoteImageView.setVisibility(View.VISIBLE);
+      answer0Button.setVisibility(View.VISIBLE);
+      answer1Button.setVisibility(View.VISIBLE);
+      answer2Button.setVisibility(View.VISIBLE);
+      answer3Button.setVisibility(View.VISIBLE);
+      submitButton.setVisibility(View.VISIBLE);
+    }
     submitButton.setEnabled(false);
   }
 
