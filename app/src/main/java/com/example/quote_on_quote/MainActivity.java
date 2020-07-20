@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
   int playerAnswer;
   int currentQuestionIndex = 0;
   int correctAnswerButtonId;
+  int numClick = 0;
   String gameOverMessage;
 
   ImageView quoteImageView;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
+    MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.music);
+    mediaPlayer.start();
     setContentView(R.layout.landing_page_main);
 
         /*(6) Had to set the play button by default to be unclickable until all the questions for the game get loaded.
@@ -56,163 +61,160 @@ public class MainActivity extends AppCompatActivity {
          */
     playButton = findViewById(R.id.playbutton);
 
-    playButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        setContentView(R.layout.game_play_main);
-        quoteImageView = findViewById(R.id.quoteimg);
-        questionTextView = findViewById(R.id.question);
-        answerResultText = findViewById(R.id.answerresult);
-        answer0Button = findViewById(R.id.answer0);
-        answer1Button = findViewById(R.id.answer1);
-        answer2Button = findViewById(R.id.answer2);
-        answer3Button = findViewById(R.id.answer3);
-        submitButton = findViewById(R.id.submit);
-        moreInfoButton = findViewById(R.id.moreinfo);
-        nextQuestionButton = findViewById(R.id.nextquestion);
-        buttonHolder = findViewById(R.id.buttonholder);
+    playButton.setOnClickListener(v -> {
+      setContentView(R.layout.game_play_main);
+      quoteImageView = findViewById(R.id.quoteimg);
+      questionTextView = findViewById(R.id.question);
+      answerResultText = findViewById(R.id.answerresult);
+      answer0Button = findViewById(R.id.answer0);
+      answer1Button = findViewById(R.id.answer1);
+      answer2Button = findViewById(R.id.answer2);
+      answer3Button = findViewById(R.id.answer3);
+      submitButton = findViewById(R.id.submit);
+      moreInfoButton = findViewById(R.id.moreinfo);
+      nextQuestionButton = findViewById(R.id.nextquestion);
+      buttonHolder = findViewById(R.id.buttonholder);
 
-        startNewGame();
+      startNewGame();
 
-        answer0Button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            Question currentQuestion = getCurrentQuestion();
-            playerAnswer = 0;
-            setPlayerAnswer(currentQuestion, answer0Button, 0);
+      answer0Button.setOnClickListener(v1 -> {
+        Question currentQuestion = getCurrentQuestion();
+        playerAnswer = 0;
+        setPlayerAnswer(currentQuestion, answer0Button, 0);
 
-            answer1Button.setText(currentQuestion.answerArray[1]);
-            answer2Button.setText(currentQuestion.answerArray[2]);
-            answer3Button.setText(currentQuestion.answerArray[3]);
-            submitButton.setEnabled(true);
-          }
-        });
+        answer1Button.setText(currentQuestion.answerArray[1]);
+        answer2Button.setText(currentQuestion.answerArray[2]);
+        answer3Button.setText(currentQuestion.answerArray[3]);
+        submitButton.setEnabled(true);
+      });
 
-        answer1Button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            Question currentQuestion = getCurrentQuestion();
+      answer1Button.setOnClickListener(v12 -> {
+        Question currentQuestion = getCurrentQuestion();
 
-            playerAnswer = 1;
-            setPlayerAnswer(currentQuestion, answer1Button, 1);
+        playerAnswer = 1;
+        setPlayerAnswer(currentQuestion, answer1Button, 1);
 
-            answer0Button.setText(currentQuestion.answerArray[0]);
-            answer2Button.setText(currentQuestion.answerArray[2]);
-            answer3Button.setText(currentQuestion.answerArray[3]);
-            submitButton.setEnabled(true);
-          }
-        });
+        answer0Button.setText(currentQuestion.answerArray[0]);
+        answer2Button.setText(currentQuestion.answerArray[2]);
+        answer3Button.setText(currentQuestion.answerArray[3]);
+        submitButton.setEnabled(true);
+      });
 
-        answer2Button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            Question currentQuestion = getCurrentQuestion();
-            playerAnswer = 2;
-            setPlayerAnswer(currentQuestion, answer2Button, 2);
+      answer2Button.setOnClickListener(v13 -> {
+        Question currentQuestion = getCurrentQuestion();
+        playerAnswer = 2;
+        setPlayerAnswer(currentQuestion, answer2Button, 2);
 
-            answer0Button.setText(currentQuestion.answerArray[0]);
-            answer1Button.setText(currentQuestion.answerArray[1]);
-            answer3Button.setText(currentQuestion.answerArray[3]);
-            submitButton.setEnabled(true);
-          }
-        });
+        answer0Button.setText(currentQuestion.answerArray[0]);
+        answer1Button.setText(currentQuestion.answerArray[1]);
+        answer3Button.setText(currentQuestion.answerArray[3]);
+        submitButton.setEnabled(true);
+      });
 
-        answer3Button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            Question currentQuestion = getCurrentQuestion();
-            playerAnswer = 3;
-            setPlayerAnswer(currentQuestion, answer3Button, 3);
+      answer3Button.setOnClickListener(v14 -> {
+        Question currentQuestion = getCurrentQuestion();
+        playerAnswer = 3;
+        setPlayerAnswer(currentQuestion, answer3Button, 3);
 
-            answer0Button.setText(currentQuestion.answerArray[0]);
-            answer1Button.setText(currentQuestion.answerArray[1]);
-            answer2Button.setText(currentQuestion.answerArray[2]);
-            submitButton.setEnabled(true);
-          }
-        });
+        answer0Button.setText(currentQuestion.answerArray[0]);
+        answer1Button.setText(currentQuestion.answerArray[1]);
+        answer2Button.setText(currentQuestion.answerArray[2]);
+        submitButton.setEnabled(true);
+      });
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            setCorrectAnswerButtonId();
+      submitButton.setOnClickListener(view -> {
+        setCorrectAnswerButtonId();
 
-            Question currentQuestion = getCurrentQuestion();
-            submitButton.setVisibility(View.GONE); //hide the submit button
+        Question currentQuestion = getCurrentQuestion();
+        submitButton.setVisibility(View.GONE); //hide the submit button
 
-            if (currentQuestion.isCorrect()) {
-              countCorrect(true); //increment totalCorrectAnswers
-              quoteImageView.setImageResource(R.drawable.correct);
-            } else {
-              quoteImageView.setImageResource(R.drawable.wrong);
+        if (currentQuestion.isCorrect()) {
+          countCorrect(true); //increment totalCorrectAnswers
+          quoteImageView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce));
+          quoteImageView.setImageResource(R.drawable.correct);
+        } else {
+          quoteImageView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce));
+          quoteImageView.setImageResource(R.drawable.wrong);
+        }
+        String text = "\u2714" + currentQuestion.answerArray[currentQuestion.correctAnswer];
+        correctAnswerButton.setText(text);
+        buttonHolder.setVisibility(View.VISIBLE);
+      });
+
+      moreInfoButton.setOnClickListener(view -> {
+        Question currentQuestion = getCurrentQuestion();
+        if (numClick == 0) {
+          answerResultText.setText(currentQuestion.infoText);
+          answerResultText.setMovementMethod(new ScrollingMovementMethod());
+
+          questionTextView.setVisibility(View.GONE);
+          quoteImageView.clearAnimation();
+          quoteImageView.setVisibility(View.GONE);
+          answer0Button.setVisibility(View.GONE);
+          answer1Button.setVisibility(View.GONE);
+          answer2Button.setVisibility(View.GONE);
+          answer3Button.setVisibility(View.GONE);
+          answerResultText.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein));
+          answerResultText.setVisibility(View.VISIBLE);
+          numClick++;
+        } else {
+          answerResultText.setVisibility(View.GONE);
+          answerResultText.clearAnimation();
+          questionTextView.setVisibility(View.VISIBLE);
+          quoteImageView.setImageResource(getResources().getIdentifier(currentQuestion.imageName, "drawable", getPackageName()));
+          quoteImageView.setVisibility(View.VISIBLE);
+          answer0Button.setVisibility(View.VISIBLE);
+          answer1Button.setVisibility(View.VISIBLE);
+          answer2Button.setVisibility(View.VISIBLE);
+          answer3Button.setVisibility(View.VISIBLE);
+          numClick = 0;
+        }
+
+      });
+
+      nextQuestionButton.setOnClickListener(view -> {
+        if (currentQuestionIndex < 4) {
+          quoteImageView.setForeground(null);
+
+          answerResultText.setVisibility(View.GONE);
+          buttonHolder.setVisibility(View.GONE);
+
+          pickQuestion();
+          renderQuestion();
+        } else {
+          quoteImageView.setForeground(null);
+          gameOver(totalCorrectAnswers, totalQuestions);
+
+          AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+          gameOverDialogBuilder.setCancelable(false);
+          gameOverDialogBuilder.setTitle("Game Over!");
+          gameOverDialogBuilder.setMessage(gameOverMessage);
+
+          gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              mediaPlayer.stop();
+              //got the code below from: https://stackoverflow.com/questions/13956026/re-launch-android-application-programmatically
+              Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(
+                  getBaseContext().getPackageName());
+              assert intent != null;
+              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+              startActivity(intent);
             }
-            String text = "\u2714" + currentQuestion.answerArray[currentQuestion.correctAnswer];
-            correctAnswerButton.setText(text);
-            buttonHolder.setVisibility(View.VISIBLE);
+          });
 
-          }
-        });
-
-        moreInfoButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            Question currentQuestion = getCurrentQuestion();
-            answerResultText.setText(currentQuestion.infoText);
-            answerResultText.setMovementMethod(new ScrollingMovementMethod());
-
-            questionTextView.setVisibility(View.GONE);
-            quoteImageView.setVisibility(View.GONE);
-            answer0Button.setVisibility(View.GONE);
-            answer1Button.setVisibility(View.GONE);
-            answer2Button.setVisibility(View.GONE);
-            answer3Button.setVisibility(View.GONE);
-            answerResultText.setVisibility(View.VISIBLE);
-          }
-        });
-
-        nextQuestionButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            if (currentQuestionIndex < 4) {
-              quoteImageView.setForeground(null);
-
-              answerResultText.setVisibility(View.GONE);
-              buttonHolder.setVisibility(View.GONE);
-
-              pickQuestion();
-              renderQuestion();
-            } else {
-              quoteImageView.setForeground(null);
-              gameOver(totalCorrectAnswers, totalQuestions);
-
-              AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-              gameOverDialogBuilder.setCancelable(false);
-              gameOverDialogBuilder.setTitle("Game Over!");
-              gameOverDialogBuilder.setMessage(gameOverMessage);
-
-              gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  //got the code below from: https://stackoverflow.com/questions/13956026/re-launch-android-application-programmatically
-                  Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(
-                      getBaseContext().getPackageName());
-                  assert intent != null;
-                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                  startActivity(intent);
-                }
-              });
-
-              gameOverDialogBuilder.setNegativeButton("Leave Game!", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                  finish();
-                }
-              });
-              gameOverDialogBuilder.create().show();
+          gameOverDialogBuilder.setNegativeButton("Leave Game!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              mediaPlayer.stop();
+              finish();
             }
-          }
-        });
+          });
+          gameOverDialogBuilder.create().show();
+        }
+      });
 
-      }
     });
 
         /* (7) The below creates a new QuestionLookup instance and calls the createAllQuestions which triggers
@@ -239,6 +241,8 @@ public class MainActivity extends AppCompatActivity {
     String imageText = question.imageName;
     int imageId = this.getResources().getIdentifier(imageText, "drawable", this.getPackageName()); //found here: https://stackoverflow.com/questions/3476430/how-to-get-a-resource-id-with-a-known-resource-name
     quoteImageView.setImageResource(imageId);
+    quoteImageView.clearAnimation();
+    answerResultText.clearAnimation();
     questionTextView.setText(question.questionText);
 
     answer0Button.setText(question.answerArray[0]);
@@ -246,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
     answer2Button.setText(question.answerArray[2]);
     answer3Button.setText(question.answerArray[3]);
 
-    if(currentQuestionIndex > 0){
+    if (currentQuestionIndex > 0) {
       questionTextView.setVisibility(View.VISIBLE);
       quoteImageView.setVisibility(View.VISIBLE);
       answer0Button.setVisibility(View.VISIBLE);
@@ -294,7 +298,6 @@ public class MainActivity extends AppCompatActivity {
   public void startNewGame() {
     totalCorrectAnswers = 0;
     totalQuestions = gameQuestions.size();
-
     renderQuestion();
   }
 
