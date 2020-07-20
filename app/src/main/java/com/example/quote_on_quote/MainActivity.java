@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
       nextQuestionButton.setOnClickListener(view -> {
         if (currentQuestionIndex < 4) {
+          numClick = 0;
           quoteImageView.setForeground(null);
 
           answerResultText.setVisibility(View.GONE);
