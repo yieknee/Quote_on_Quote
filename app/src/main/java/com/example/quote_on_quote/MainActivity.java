@@ -1,9 +1,5 @@
 package com.example.quote_on_quote;
 
-import androidx.appcompat.app.AlertDialog;
-
-import android.content.DialogInterface;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -33,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
   String gameOverMessage;
 
   ImageView quoteImageView;
+  ImageView goImage;
   TextView questionTextView;
   TextView answerResultText;
+  TextView goMessage;
   Button playButton;
   Button answer0Button;
   Button answer1Button;
@@ -44,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
   Button moreInfoButton;
   Button nextQuestionButton;
   Button correctAnswerButton;
+  Button leave;
+  Button playAgain;
   LinearLayout buttonHolder;
 
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
-    MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.music);
+    MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.music); //Royalty Free Music from Bensound.com
     mediaPlayer.start();
     setContentView(R.layout.landing_page_main);
 
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
       moreInfoButton = findViewById(R.id.moreinfo);
       nextQuestionButton = findViewById(R.id.nextquestion);
       buttonHolder = findViewById(R.id.buttonholder);
+
 
       startNewGame();
 
@@ -175,25 +176,38 @@ public class MainActivity extends AppCompatActivity {
       nextQuestionButton.setOnClickListener(view -> {
         if (currentQuestionIndex < 4) {
           numClick = 0;
-          quoteImageView.setForeground(null);
-
           answerResultText.setVisibility(View.GONE);
           buttonHolder.setVisibility(View.GONE);
 
           pickQuestion();
           renderQuestion();
         } else {
-          quoteImageView.setForeground(null);
           gameOver(totalCorrectAnswers, totalQuestions);
+          setContentView(R.layout.game_over_main);
 
-          AlertDialog.Builder gameOverDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-          gameOverDialogBuilder.setCancelable(false);
-          gameOverDialogBuilder.setTitle("Game Over!");
-          gameOverDialogBuilder.setMessage(gameOverMessage);
+          goMessage = findViewById(R.id.gomessage);
+          goMessage.setText(gameOverMessage);
 
-          gameOverDialogBuilder.setPositiveButton("Play Again!", new DialogInterface.OnClickListener() {
+          goImage = findViewById(R.id.goimg);
+          if (totalCorrectAnswers == totalQuestions) {
+            goImage.setImageResource(R.drawable.win);
+          } else {
+            goImage.setImageResource(R.drawable.lose);
+          }
+          goImage.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink));
+          leave = findViewById(R.id.leave);
+          leave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
+              mediaPlayer.stop();
+              finish();
+            }
+          });
+
+          playAgain = findViewById(R.id.playagain);
+          playAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
               mediaPlayer.stop();
               //got the code below from: https://stackoverflow.com/questions/13956026/re-launch-android-application-programmatically
               Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(
@@ -205,14 +219,6 @@ public class MainActivity extends AppCompatActivity {
             }
           });
 
-          gameOverDialogBuilder.setNegativeButton("Leave Game!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              mediaPlayer.stop();
-              finish();
-            }
-          });
-          gameOverDialogBuilder.create().show();
         }
       });
 
@@ -306,9 +312,9 @@ public class MainActivity extends AppCompatActivity {
   public void gameOver(int numberCorrect, int numberOfQuestions) {
     // this will output some type of message  to the player that tells them if they won or lost
     if (totalCorrectAnswers == totalQuestions) {
-      gameOverMessage = "You got all " + totalQuestions + " right! \n YOU WIN!";
+      gameOverMessage = "You got all " + totalQuestions + " right!";
     } else {
-      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ". \n" + "YOU LOSE! \n Better luck next time!";
+      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ". \n" + "Better luck next time!";
     }
   }
 
