@@ -185,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
           gameOver(totalCorrectAnswers, totalQuestions);
           setContentView(R.layout.game_over_main);
 
+          TextView goText = findViewById(R.id.gotext);
+          goText.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slidedown));
+
           goMessage = findViewById(R.id.gomessage);
           goMessage.setText(gameOverMessage);
 
