@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
     if (totalCorrectAnswers == totalQuestions) {
       gameOverMessage = "You got all " + totalQuestions + " right!";
     } else {
-      gameOverMessage = "You got " + totalCorrectAnswers + " right out of " + totalQuestions + ". \n" + "Better luck next time!";
+      gameOverMessage = "You got " + totalCorrectAnswers + "/" + totalQuestions + " right. \n Better luck next time!";
     }
   }
 

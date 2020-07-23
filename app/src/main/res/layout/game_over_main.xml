@@ -33,7 +33,7 @@
     <ImageView
         android:id="@+id/goimg"
         android:layout_width="0dp"
-        android:layout_height="350dp"
+        android:layout_height="231dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/win_lose_image"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
         android:fontFamily="@font/amatica_sc"
         android:text="@string/gomessage"
         android:textAlignment="center"
-        android:textSize="70sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

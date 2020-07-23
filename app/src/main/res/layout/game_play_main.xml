@@ -13,7 +13,7 @@
 
     <ImageView
         android:id="@+id/quoteimg"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="301dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/questionimage"
@@ -58,7 +58,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:fontFamily="@font/amatica_sc"
             android:text="@string/answer0"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -71,7 +71,7 @@
             android:backgroundTintMode="src_in"
             android:fontFamily="@font/amatica_sc"
             android:text="@string/answer1"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -83,7 +83,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:fontFamily="@font/amatica_sc"
             android:text="@string/answer2"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -95,7 +95,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:fontFamily="@font/amatica_sc"
             android:text="@string/answer3"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
