@@ -139,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
         }
         String text = "\u2714" + currentQuestion.answerArray[currentQuestion.correctAnswer];
         correctAnswerButton.setText(text);
+
+        if(currentQuestionIndex == 4){
+          String results = "How did I do?";
+          nextQuestionButton.setText(results);
+        }
         buttonHolder.setVisibility(View.VISIBLE);
       });
 
